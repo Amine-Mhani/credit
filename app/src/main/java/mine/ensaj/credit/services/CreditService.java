@@ -135,4 +135,29 @@ public class CreditService implements IDao<Credit> {
         return eds;
 
     }
+
+    public List<Credit> findNonPayé(){
+        List<Credit> eds = new ArrayList<>();
+        String req ="select * from "+TABLE_NAME+" where etat == 'Non Payé'";
+        SQLiteDatabase db = this.helper.getReadableDatabase();
+        Cursor c = db.rawQuery(req, null);
+        Credit e = null;
+        if(c.moveToFirst()){
+            do{
+                e = new Credit();
+                e.setId(c.getInt(0));
+                e.setPrix(c.getFloat(1));
+                e.setClient(c.getInt(2));
+                e.setCategory(c.getInt(3));
+                e.setProduct(c.getInt(4));
+                e.setDate(Date.valueOf(c.getString(5)));
+                e.setEtat(c.getString(6));
+                eds.add(e);
+                Log.d("id = ", e.getId()+"");
+            }while(c.moveToNext());
+        }
+        Log.d("findall", eds.get(0).getEtat());
+        return eds;
+
+    }
 }

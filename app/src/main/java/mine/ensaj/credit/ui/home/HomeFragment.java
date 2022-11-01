@@ -13,17 +13,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ShareCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
+
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.sql.Date;
+import java.util.List;
 
 import mine.ensaj.credit.R;
+import mine.ensaj.credit.adapters.CreditAdapter;
 import mine.ensaj.credit.classes.Category;
 import mine.ensaj.credit.classes.Client;
 import mine.ensaj.credit.classes.Credit;
@@ -38,6 +45,15 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private RecyclerView recyclerView;
+    private CreditAdapter creditAdapter;
+
+    private Credit credit;
+    private Product product;
+    private Category category;
+
+    private TextView id;
+    private TextView price;
+    private TextView etat;
 
 
 
@@ -50,27 +66,26 @@ public class HomeFragment extends Fragment {
         CreditService cs = new CreditService(this.getContext());
         ProductService ps = new ProductService(this.getContext());
         ClientService cls = new ClientService(this.getContext());
-
-        /**ps.create(new Product("CocaCola", "le boisson CocaCola", 1));
-        ps.create(new Product("Oreo", "le snack oreo", 2));
-
-        cls.create(new Client("MHANI", "Amine", "BB23923", 061545));
-
-        cs.create(new Credit(8.3f, 1, 1, 1, Date.valueOf("2022-11-01"), "Non payé"));*/
+        CategoryService cat = new CategoryService(this.getContext());
 
 
-
-        Log.d("findall", "onCreateView: "+cs.findAll().get(0).getEtat());
-
-
-        recyclerView = view.findViewById(R.id.recycle_view);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 
+        recyclerView = root.findViewById(R.id.recycle_view);
+        creditAdapter = new CreditAdapter(getContext(), cs.findAll());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(creditAdapter);
+
+
+
+
         return root;
     }
+
 
 
     @Override

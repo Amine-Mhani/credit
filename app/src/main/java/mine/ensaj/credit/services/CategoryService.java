@@ -85,7 +85,7 @@ public class CategoryService implements IDao<Category> {
         SQLiteDatabase db = this.helper.getReadableDatabase();
         Cursor c = db.rawQuery(req, null);
         Category e = null;
-        if(c.moveToFirst()){
+        if(c.moveToNext()){
             do{
                 e = new Category();
                 e.setId(c.getInt(0));
