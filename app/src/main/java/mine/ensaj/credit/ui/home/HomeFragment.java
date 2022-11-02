@@ -1,22 +1,13 @@
 package mine.ensaj.credit.ui.home;
 
-import static android.content.ContentValues.TAG;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ShareCompat;
-import androidx.core.view.MenuItemCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-
-import android.widget.Button;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,13 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.sql.Date;
-import java.util.List;
 
 import mine.ensaj.credit.R;
 import mine.ensaj.credit.adapters.CreditAdapter;
 import mine.ensaj.credit.classes.Category;
-import mine.ensaj.credit.classes.Client;
 import mine.ensaj.credit.classes.Credit;
 import mine.ensaj.credit.classes.Product;
 import mine.ensaj.credit.databinding.FragmentHomeBinding;
@@ -55,6 +43,10 @@ public class HomeFragment extends Fragment {
     private TextView price;
     private TextView etat;
 
+    private FloatingActionButton addButton;
+
+
+
 
 
 
@@ -67,11 +59,31 @@ public class HomeFragment extends Fragment {
         ProductService ps = new ProductService(this.getContext());
         ClientService cls = new ClientService(this.getContext());
         CategoryService cat = new CategoryService(this.getContext());
+/**
+        addButton = view.findViewById(R.id.add_credit);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddActivity.class);
+                startActivity(intent);
+            }
+        });*/
 
 
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+
+        binding.addCredit.findViewById(R.id.add_credit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
 
         recyclerView = root.findViewById(R.id.recycle_view);

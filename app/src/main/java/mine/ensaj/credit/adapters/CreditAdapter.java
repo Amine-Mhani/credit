@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import mine.ensaj.credit.R;
 import mine.ensaj.credit.classes.Client;
@@ -43,6 +44,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditView
     public CreditViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(this.context).inflate(R.layout.credit_item, viewGroup, false);
         final ImageView delete = view.findViewById(R.id.delete);
+        final TextView id = view.findViewById(R.id.ids);
 
 
 
@@ -55,21 +57,36 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditView
 
         final CreditViewHolder holder = new CreditViewHolder(view);
 
-        holder.itemView.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view1) {
+                Log.d(TAG, "onDelete: "+id.getText().toString());
+
+                cs.delete(cs.findById(Integer.parseInt(id.getText().toString())));
+                credits = cs.findAll();
+                notifyItemRemoved(holder.getBindingAdapterPosition());
+
+
+            }
+        });
+
+        /**holder.itemView.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v2) {
                 Log.d(TAG, "onClick: delete");
                 try {
-                    //View popup = LayoutInflater.from(context).inflate(R.layout.credit_edit_item, null, false);
-                    final TextView idss = view.findViewById(R.id.idss);
-                    cs.delete(cs.findById(Integer.parseInt(idss.getText().toString())));
+                    View popup = LayoutInflater.from(context).inflate(R.layout.credit_edit_item, null, false);
+                    //final TextView ids = view.findViewById(R.id.ids);
+                    Log.d(TAG, "onDelete: can "+view.findViewById(R.id.ids));
+                    //cs.delete(cs.findById(Integer.parseInt(idss.getText().toString())));
                     credits = cs.findAll();
                     notifyItemChanged(holder.getAdapterPosition());
+                    Log.d(TAG, "onDelete: can");
                 }catch(Exception e){
                     Log.d(TAG, "onDelete: cant");
                 }
             }
-        });
+        });*/
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,8 +95,6 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditView
                 final TextView client = popup.findViewById(R.id.client);
                 final TextView product = popup.findViewById(R.id.product);
                 final TextView price = popup.findViewById(R.id.prix);
-
-
 
 
                 idss.setText(((TextView) v.findViewById(R.id.ids)).getText().toString());
@@ -113,6 +128,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditView
         creditViewHolder.etat.setText(credits.get(i).getEtat());
         creditViewHolder.date.setText(credits.get(i).getDate() + "");
         creditViewHolder.idss.setText(credits.get(i).getId() + "");
+
     }
 
     @Override
