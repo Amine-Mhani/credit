@@ -22,4 +22,16 @@
         android:name="mine.ensaj.credit.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_client"
+        android:name="mine.ensaj.credit.ui.client.ClientFragment"
+        android:label="@string/menu_client"
+        tools:layout="@layout/fragment_client" />
+
+    <fragment
+        android:id="@+id/nav_product"
+        android:name="mine.ensaj.credit.ui.product.ProductFragment"
+        android:label="@string/menu_product"
+        tools:layout="@layout/fragment_client" />
 </navigation>
